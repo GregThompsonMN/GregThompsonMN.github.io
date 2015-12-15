@@ -1,7 +1,1835 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Home Page - Card Dust</title>
+        <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <script type="text/javascript" src="/Scripts/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="/Scripts/jquery-ui.1.8.24.min.js"></script>
+        <script type="text/javascript" src="/Scripts/modernizr-2.6.2.js"></script>
+        <script type="text/javascript" src="/Scripts/CardDustv301.js"></script>
+        <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
+        <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-46983316-1', 'carddust.com');
+            ga('send', 'pageview');
+
+        </script>
+        <link href="/site.css" rel="stylesheet"/>
+
+        <script src="/Scripts/modernizr-2.6.2.js"></script>
+
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title"><a href="/">CardDust</a></p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+
+                    </section>
+                    <nav>
+                        <ul id="menu">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/Home/About">Methodology</a></li>
+                            <li><a href="/Home/Contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+
+            <section class="content-wrapper main-content clear-fix">
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ChkCard').change(function () {
+            var URLtoEdit = document.getElementById('ColLink');
+            var newURL = GenerateNewLink();
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+            URLtoEdit = document.getElementById('ColLinkGvG');
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+            URLtoEdit = document.getElementById('ColLinkGrT');
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+        });
+
+        $('#QuickCheck').click(function () {
+            var OptionBox = document.getElementById('QCRarity');
+            var QCR = OptionBox.value;
+            OptionBox = document.getElementById('QCSet');
+            var QCS = OptionBox.value;
+            OptionBox = document.getElementById('QCAction');
+            var QCA = OptionBox.value;
+            ChangeAllChecks(QCR, QCS, QCA);
+            var URLtoEdit = document.getElementById('ColLink');
+            var newURL = GenerateNewLink();
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+            URLtoEdit = document.getElementById('ColLinkGvG');
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+            URLtoEdit = document.getElementById('ColLinkGrT');
+            URLtoEdit.href = newURL;
+            URLtoEdit.textContent = "Link";
+        });
+
+        $('#RunSim').click(function () {
+            GenerateNewLink();
+            var MinCards = 10000000;
+            var MaxCards = 0;
+            var TotalCards = 0;
+            var TotalNumOfRuns = 10;
+            var StartDust = 0;
+            var TextBoxWithSimNum = document.getElementById('SimBox');
+            var StartDustBox = document.getElementById('stDust');
+            StartDust = parseInt(StartDustBox.value);
+            TotalNumOfRuns = parseInt(TextBoxWithSimNum.value);
+            for (var i = 0; i < TotalNumOfRuns; i++) {
+                var ThisDraw = RunSimulation(StartDust, 1);
+                TotalCards += ThisDraw;
+                MinCards = Math.min(MinCards, ThisDraw);
+                MaxCards = Math.max(MaxCards, ThisDraw);
+            }
+            TotalCards = TotalCards / TotalNumOfRuns;
+            var TextBoxToEdit = document.getElementById('MinRun');
+            TextBoxToEdit.value = (MinCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MinCards;
+            TextBoxToEdit = document.getElementById('MaxRun');
+            TextBoxToEdit.value = (MaxCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MaxCards;
+            TextBoxToEdit = document.getElementById('AvgRun');
+            TextBoxToEdit.value = (TotalCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = TotalCards;
+
+            TextBoxToEdit = document.getElementById('MinDollar');
+            TextBoxToEdit.value = '$' + (MinCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('AvgDollar');
+            TextBoxToEdit.value = '$' + (TotalCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('MaxDollar');
+            TextBoxToEdit.value = '$' + (MaxCards * 0.25).toFixed(2);
+        });
+
+        $('#RunSimGvG').click(function () {
+            var MinCards = 10000000;
+            var MaxCards = 0;
+            var TotalCards = 0;
+            var TotalNumOfRuns = 10;
+            var StartDust = 0;
+            var TextBoxWithSimNum = document.getElementById('SimBoxGvG');
+            var StartDustBox = document.getElementById('stDustGvG');
+            StartDust = parseInt(StartDustBox.value);
+            TotalNumOfRuns = parseInt(TextBoxWithSimNum.value);
+            for (var i = 0; i < TotalNumOfRuns; i++) {
+                var ThisDraw = RunSimulation(StartDust, 2);
+                TotalCards += ThisDraw;
+                MinCards = Math.min(MinCards, ThisDraw);
+                MaxCards = Math.max(MaxCards, ThisDraw);
+            }
+            TotalCards = TotalCards / TotalNumOfRuns;
+            var TextBoxToEdit = document.getElementById('MinRunGvG');
+            TextBoxToEdit.value = (MinCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MinCards;
+            TextBoxToEdit = document.getElementById('MaxRunGvG');
+            TextBoxToEdit.value = (MaxCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MaxCards;
+            TextBoxToEdit = document.getElementById('AvgRunGvG');
+            TextBoxToEdit.value = (TotalCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = TotalCards;
+
+            TextBoxToEdit = document.getElementById('MinDollarGvG');
+            TextBoxToEdit.value = '$' + (MinCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('AvgDollarGvG');
+            TextBoxToEdit.value = '$' + (TotalCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('MaxDollarGvG');
+            TextBoxToEdit.value = '$' + (MaxCards * 0.25).toFixed(2);
+        });
+
+        $('#RunSimGrT').click(function () {
+            var MinCards = 10000000;
+            var MaxCards = 0;
+            var TotalCards = 0;
+            var TotalNumOfRuns = 10;
+            var StartDust = 0;
+            var TextBoxWithSimNum = document.getElementById('SimBoxGrT');
+            var StartDustBox = document.getElementById('stDustGrT');
+            StartDust = parseInt(StartDustBox.value);
+            TotalNumOfRuns = parseInt(TextBoxWithSimNum.value);
+            for (var i = 0; i < TotalNumOfRuns; i++) {
+                var ThisDraw = RunSimulation(StartDust, 3);
+                TotalCards += ThisDraw;
+                MinCards = Math.min(MinCards, ThisDraw);
+                MaxCards = Math.max(MaxCards, ThisDraw);
+            }
+            TotalCards = TotalCards / TotalNumOfRuns;
+            var TextBoxToEdit = document.getElementById('MinRunGrT');
+            TextBoxToEdit.value = (MinCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MinCards;
+            TextBoxToEdit = document.getElementById('MaxRunGrT');
+            TextBoxToEdit.value = (MaxCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MaxCards;
+            TextBoxToEdit = document.getElementById('AvgRunGrT');
+            TextBoxToEdit.value = (TotalCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = TotalCards;
+
+            TextBoxToEdit = document.getElementById('MinDollarGrT');
+            TextBoxToEdit.value = '$' + (MinCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('AvgDollarGrT');
+            TextBoxToEdit.value = '$' + (TotalCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('MaxDollarGrT');
+            TextBoxToEdit.value = '$' + (MaxCards * 0.25).toFixed(2);
+        });
+
+        $('#RunSimCom').click(function () {
+            var MinCards = 10000000;
+            var MaxCards = 0;
+            var TotalCards = 0;
+            var TotalNumOfRuns = 10;
+            var StartDust = 0;
+            var TextBoxWithSimNum = document.getElementById('SimBoxCom');
+            var StartDustBox = document.getElementById('stDustCom');
+            StartDust = parseInt(StartDustBox.value);
+            // Subtract dust for missing Promos - TODO, automate for future expansion
+            var MissingPromo = document.getElementById('Chk1ID_370'); // Gelbin
+            if (!MissingPromo.checked) {
+                StartDust = StartDust - 1600;
+            }
+            MissingPromo = document.getElementById('Chk1ID_221'); // ETC
+            if (!MissingPromo.checked) {
+                StartDust = StartDust - 1600;
+            }
+
+            TotalNumOfRuns = parseInt(TextBoxWithSimNum.value);
+            for (var i = 0; i < TotalNumOfRuns; i++) {
+                var ThisDraw = RunCombinedSimulation(StartDust);
+                TotalCards += ThisDraw;
+                MinCards = Math.min(MinCards, ThisDraw);
+                MaxCards = Math.max(MaxCards, ThisDraw);
+            }
+            TotalCards = TotalCards / TotalNumOfRuns;
+            var TextBoxToEdit = document.getElementById('MinRunCom');
+            TextBoxToEdit.value = (MinCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MinCards;
+            TextBoxToEdit = document.getElementById('MaxRunCom');
+            TextBoxToEdit.value = (MaxCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = MaxCards;
+            TextBoxToEdit = document.getElementById('AvgRunCom');
+            TextBoxToEdit.value = (TotalCards / 5).toFixed(0) + ' Packs';
+            //TextBoxToEdit.value = TotalCards;
+
+            TextBoxToEdit = document.getElementById('MinDollarCom');
+            TextBoxToEdit.value = '$' + (MinCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('AvgDollarCom');
+            TextBoxToEdit.value = '$' + (TotalCards * 0.25).toFixed(2);
+
+            TextBoxToEdit = document.getElementById('MaxDollarCom');
+            TextBoxToEdit.value = '$' + (MaxCards * 0.25).toFixed(2);
+        });
+
+        var URLtoEdit = document.getElementById('ColLink');
+        var newURL = GenerateNewLink();
+        URLtoEdit.href = newURL;
+        URLtoEdit.textContent = "Link";
+        URLtoEdit = document.getElementById('ColLinkGvG');
+        URLtoEdit.href = newURL;
+        URLtoEdit.textContent = "Link";
+        URLtoEdit = document.getElementById('ColLinkGrT');
+        URLtoEdit.href = newURL;
+        URLtoEdit.textContent = "Link";
+    });
+
+
+
+    var ChanceLegendary = 0.0119;
+    var ChanceEpic = 0.0476;
+    var ChanceRare = 0.238;
+    var ChanceCommon = 0.70254;
+    var ChanceGold = 0.05;
+
+    var TotalLegendary = 33;
+    var TotalEpic = 37;
+    var TotalRare = 81;
+    var TotalCommon = 94;
+
+    var TotalLegendaryGvG = 20;
+    var TotalEpicGvG = 26;
+    var TotalRareGvG = 37;
+    var TotalCommonGvG = 40;
+
+    var TotalLegendaryGrT = 20;
+    var TotalEpicGrT = 26;
+    var TotalRareGrT = 37;
+    var TotalCommonGrT = 49;
+
+    var DustPerLegendary = 1600;    // DE for 400/1600
+    var DustPerEpic = 400;          // DE for 100/400
+    var DustPerRare = 100;          // DE for 20/100
+    var DustPerCommon = 40;         // DE for 5/50
+
+    // Todo - populate values
+    var ColLegendaryLeft = 33;
+    var ColEpicSingleLeft = 0;
+    var ColEpicDoubleLeft = 38;
+    var ColRareSingleLeft = 0;
+    var ColRareDoubleLeft = 81;
+    var ColCommonSingleLeft = 0;
+    var ColCommonDoubleLeft = 94;
+
+    var GvGLegendaryLeft = 20;
+    var GvGEpicSingleLeft = 0;
+    var GvGEpicDoubleLeft = 26;
+    var GvGRareSingleLeft = 0;
+    var GvGRareDoubleLeft = 37;
+    var GvGCommonSingleLeft = 0;
+    var GvGCommonDoubleLeft = 40;
+
+    var GrTLegendaryLeft = 20;
+    var GrTEpicSingleLeft = 0;
+    var GrTEpicDoubleLeft = 27;
+    var GrTRareSingleLeft = 0;
+    var GrTRareDoubleLeft = 36;
+    var GrTCommonSingleLeft = 0;
+    var GrTCommonDoubleLeft = 49;
+
+    var TotalCards = '502';
+    var CardCount = 0;
+    var arrCards = new Array();
+    var setCards = new Array();
+
+
+</script>
+
+<div class="row">
+    <div>
+        <h2>Welcome to Card Dust v3.0 - Grand Tournament!</h2>
+        <p>
+            The goal for this site is to provide an estimate on the number
+            of packs it will take to complete your Classic, GvG and Grand Tournament collections.<br />
+            <b>Tool Tips are back - Good luck with your Grand Tournament Packs!</b><br />
+        </p>
+    </div>
+    <div>
+        <h2>Fill in your collection</h2>
+        <p>
+            Check off cards you have below, and enter the number of simulations you'd like to run.
+            You can also create a direct link to return to your collection later. <br /><br />
+            Links include all checked cards across all sets.  To quickly check entire categories of cards, navigate to the Quick Check section below. <br />
+        </p>
+            <a href="#GrT">Jump to Grand Tournament Collection</a><br />
+            <a href="#GvG">Jump to GvG Collection</a><br />
+            <a href="#Classic">Jump to Classic Collection</a><br />
+            <a href="#QuickCheck">Jump to Quick-Check</a><br />
+
+    </div>
+</div>
+<div>
+    <h2>
+        Your COMPLETE Collection:
+    </h2>
+    Current Optimal Pack Choice <br />
+    <input id="optPack" title="0" type="text" value="GvG"/><br />
+    Dust On Hand: <br />
+    <input id="stDustCom" type="text" value="0" /> <br />
+    Simulations: <br />
+    <input id="SimBoxCom" type="text" value="100"/>
+    <input id="RunSimCom" type="button" title="Run Simulation" value="Run Simulation"/> <br />
+    Minimum <br />
+    <input id="MinRunCom" title="0" type="text" value="0"/> <input id="MinDollarCom" title="0" type="text" value="$0" /> <br />
+    Average <br />
+    <input id="AvgRunCom" title="0" type="text" value="0" /> <input id="AvgDollarCom" title="0" type="text" value="$0" /> <br />
+    Maximum <br />
+    <input id="MaxRunCom" title="0" type="text" value="0"/> <input id="MaxDollarCom" title="0" type="text" value="$0" /> <br />
+</div>
+<div>
+    <h2>Promo Set</h2>
+            <input id='Chk1ID_221' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1754" target="_new" >Elite Tauren Chieftain</a> <br />
+            <input id='Chk1ID_370' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=858" target="_new" >Gelbin Mekkatorque</a> <br />
+</div>
+<div>
+    <a name="GrT" /></a>
+    <h2>
+        Your Grand Tournament Collection:
+    </h2>
+    Direct Link: <a href="www.google.com" id="ColLinkGrT">http://www.carddust.com/Home/00000000000000TOODO000000000000000000000</a><br />
+    Dust On Hand: <br />
+    <input id="stDustGrT" type="text" value="0" /> <br />
+    Simulations: <br />
+    <input id="SimBoxGrT" type="text" value="100" />
+    <input id="RunSimGrT" type="button" title="Run Simulation" value="Run Simulation" /> <br />
+    Minimum <br />
+    <input id="MinRunGrT" title="0" type="text" value="0" /> <input id="MinDollarGrT" title="0" type="text" value="$0" /> <br />
+    Average <br />
+    <input id="AvgRunGrT" title="0" type="text" value="0" /> <input id="AvgDollarGrT" title="0" type="text" value="$0" /> <br />
+    Maximum <br />
+    <input id="MaxRunGrT" title="0" type="text" value="0" /> <input id="MaxDollarGrT" title="0" type="text" value="$0" /> <br />
+
+    Dust Needed: <br />
+    <input id="needDustGrT" type="text" value="0" readonly="readonly" /> <br />
+    Common Missing (Single/Double): <br />
+    <input id="needCommonGrT" type="text" value="0/0" readonly="readonly" /> <br />
+    Rare Missing (Single/Double): <br />
+    <input id="needRareGrT" type="text" value="0/0" readonly="readonly" /> <br />
+    Epic Missing (Single/Double): <br />
+    <input id="needEpicGrT" type="text" value="0/0" readonly="readonly" /> <br />
+    Legendary Missing: <br />
+    <input id="needLegendGrT" type="text" value="0/0" readonly="readonly" /> <br />
+</div>
+<div>
+        <h3>Class: Neutral</h3>
+            <input id='Chk1ID_371' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_371' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2818" target="_new">Gadgetzan Jouster</a> <br />             <input id='Chk1ID_372' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_372' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2502" target="_new">Injured Kvaldir</a> <br />             <input id='Chk1ID_373' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_373' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2486" target="_new">Lowly Squire</a> <br />             <input id='Chk1ID_374' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_374' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2499" target="_new">Tournament Attendee</a> <br />             <input id='Chk1ID_375' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_375' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2505" target="_new">Argent Watchman</a> <br />             <input id='Chk1ID_376' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_376' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2495" target="_new">Boneguard Lieutenant</a> <br />             <input id='Chk1ID_377' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_377' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2580" target="_new">Flame Juggler</a> <br />             <input id='Chk1ID_378' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_378' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2517" target="_new">Garrison Commander</a> <br />             <input id='Chk1ID_379' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_379' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2577" target="_new">Lance Carrier</a> <br />             <input id='Chk1ID_380' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_380' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2490" target="_new">Argent Horserider</a> <br />             <input id='Chk1ID_381' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_381' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2585" target="_new">Coliseum Manager</a> <br />             <input id='Chk1ID_382' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_382' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2533" target="_new">Dragonhawk Rider</a> <br />             <input id='Chk1ID_383' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2519" target="_new">Eydis Darkbane</a> <br />             <input id='Chk1ID_384' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_384' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2581" target="_new">Fencing Coach</a> <br />             <input id='Chk1ID_385' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2748" target="_new">Fjola Lightbane</a> <br />             <input id='Chk1ID_386' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_386' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2594" target="_new">Ice Rager</a> <br />             <input id='Chk1ID_387' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_387' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2259" target="_new">Light&#39;s Champion</a> <br />             <input id='Chk1ID_388' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_388' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2493" target="_new">Master of Ceremonies</a> <br />             <input id='Chk1ID_389' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_389' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2576" target="_new">Saboteur</a> <br />             <input id='Chk1ID_390' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_390' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2579" target="_new">Silent Knight</a> <br />             <input id='Chk1ID_391' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_391' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2503" target="_new">Silver Hand Regent</a> <br />             <input id='Chk1ID_392' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_392' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2627" target="_new">Armored Warhorse</a> <br />             <input id='Chk1ID_393' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_393' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2518" target="_new">Crowd Favorite</a> <br />             <input id='Chk1ID_394' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_394' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2752" target="_new">Evil Heckler</a> <br />             <input id='Chk1ID_395' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_395' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2532" target="_new">Frigid Snobold</a> <br />             <input id='Chk1ID_396' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2724" target="_new">Gormok the Impaler</a> <br />             <input id='Chk1ID_397' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_397' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2488" target="_new">Maiden of the Lake</a> <br />             <input id='Chk1ID_398' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_398' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2704" target="_new">Refreshment Vendor</a> <br />             <input id='Chk1ID_399' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_399' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2575" target="_new">Tournament Medic</a> <br />             <input id='Chk1ID_400' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_400' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2569" target="_new">Twilight Guardian</a> <br />             <input id='Chk1ID_401' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_401' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2500" target="_new">Clockwork Knight</a> <br />             <input id='Chk1ID_402' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_402' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2511" target="_new">Kvaldir Raider</a> <br />             <input id='Chk1ID_403' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_403' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2497" target="_new">Mukla&#39;s Champion</a> <br />             <input id='Chk1ID_404' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2683" target="_new">Nexus-Champion Saraad</a> <br />             <input id='Chk1ID_405' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_405' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2521" target="_new">Pitfighter</a> <br />             <input id='Chk1ID_406' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_406' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2509" target="_new">Recruiter</a> <br />             <input id='Chk1ID_407' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2595" target="_new">Bolf Ramshield</a> <br />             <input id='Chk1ID_408' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_408' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2510" target="_new">Grand Crusader</a> <br />             <input id='Chk1ID_409' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2736" target="_new">Justicar Trueheart</a> <br />             <input id='Chk1ID_410' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_410' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2598" target="_new">Kodorider</a> <br />             <input id='Chk1ID_411' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_411' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2507" target="_new">Master Jouster</a> <br />             <input id='Chk1ID_412' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_412' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2491" target="_new">Mogor&#39;s Champion</a> <br />             <input id='Chk1ID_413' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_413' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2573" target="_new">Sideshow Spelleater</a> <br />             <input id='Chk1ID_414' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2681" target="_new">The Skeleton Knight</a> <br />             <input id='Chk1ID_415' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_415' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2522" target="_new">Captured Jormungar</a> <br />             <input id='Chk1ID_416' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2682" target="_new">Chillmaw</a> <br />             <input id='Chk1ID_417' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2757" target="_new">Skycap&#39;n Kragg</a> <br />             <input id='Chk1ID_418' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2725" target="_new">Icehowl</a> <br />             <input id='Chk1ID_419' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_419' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2520" target="_new">North Sea Kraken</a> <br />             <input id='Chk1ID_420' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_420' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2512" target="_new">Frost Giant</a> <br />         <h3>Class: Druid</h3>
+            <input id='Chk1ID_421' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_421' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2792" target="_new">Living Roots</a> <br />             <input id='Chk1ID_422' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_422' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2782" target="_new">Darnassus Aspirant</a> <br />             <input id='Chk1ID_423' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_423' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2783" target="_new">Druid of the Saber</a> <br />             <input id='Chk1ID_424' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_424' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2793" target="_new">Mulch</a> <br />             <input id='Chk1ID_425' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_425' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2785" target="_new">Astral Communion</a> <br />             <input id='Chk1ID_426' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_426' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2780" target="_new">Savage Combatant</a> <br />             <input id='Chk1ID_427' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_427' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2786" target="_new">Wildwalker</a> <br />             <input id='Chk1ID_428' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_428' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2788" target="_new">Knight of the Wild</a> <br />             <input id='Chk1ID_429' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2796" target="_new">Aviana</a> <br />         <h3>Class: Hunter</h3>
+            <input id='Chk1ID_430' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_430' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2642" target="_new">Brave Archer</a> <br />             <input id='Chk1ID_431' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_431' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2641" target="_new">Bear Trap</a> <br />             <input id='Chk1ID_432' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_432' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2635" target="_new">King&#39;s Elekk</a> <br />             <input id='Chk1ID_433' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_433' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2484" target="_new">Lock and Load</a> <br />             <input id='Chk1ID_434' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2634" target="_new">Dreadscale</a> <br />             <input id='Chk1ID_435' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_435' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2638" target="_new">Powershot</a> <br />             <input id='Chk1ID_436' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_436' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2639" target="_new">Stablemaster</a> <br />             <input id='Chk1ID_437' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_437' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2552" target="_new">Ram Wrangler</a> <br />             <input id='Chk1ID_438' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_438' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2483" target="_new">Ball of Spiders</a> <br />             <input id='Chk1ID_439' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2633" target="_new">Acidmaw</a> <br />         <h3>Class: Mage</h3>
+            <input id='Chk1ID_440' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_440' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2572" target="_new">Arcane Blast</a> <br />             <input id='Chk1ID_441' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_441' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2545" target="_new">Fallen Hero</a> <br />             <input id='Chk1ID_442' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_442' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2541" target="_new">Effigy</a> <br />             <input id='Chk1ID_443' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_443' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2542" target="_new">Polymorph: Boar</a> <br />             <input id='Chk1ID_444' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_444' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2571" target="_new">Spellslinger</a> <br />             <input id='Chk1ID_445' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_445' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2549" target="_new">Dalaran Aspirant</a> <br />             <input id='Chk1ID_446' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_446' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2539" target="_new">Flame Lance</a> <br />             <input id='Chk1ID_447' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_447' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2544" target="_new">Coldarra Drake</a> <br />             <input id='Chk1ID_448' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2546" target="_new">Rhonin</a> <br />         <h3>Class: Paladin</h3>
+            <input id='Chk1ID_449' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_449' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2648" target="_new">Competitive Spirit</a> <br />             <input id='Chk1ID_450' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_450' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2720" target="_new">Argent Lance</a> <br />             <input id='Chk1ID_451' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_451' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2717" target="_new">Seal of Champions</a> <br />             <input id='Chk1ID_452' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_452' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2515" target="_new">Warhorse Trainer</a> <br />             <input id='Chk1ID_453' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_453' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2655" target="_new">Murloc Knight</a> <br />             <input id='Chk1ID_454' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_454' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2504" target="_new">Tuskarr Jouster</a> <br />             <input id='Chk1ID_455' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_455' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2654" target="_new">Enter the Coliseum</a> <br />             <input id='Chk1ID_456' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_456' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2726" target="_new">Mysterious Challenger</a> <br />             <input id='Chk1ID_457' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2727" target="_new">Eadric the Pure</a> <br />         <h3>Class: Priest</h3>
+            <input id='Chk1ID_458' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_458' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2582" target="_new">Flash Heal</a> <br />             <input id='Chk1ID_459' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_459' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2568" target="_new">Power Word: Glory</a> <br />             <input id='Chk1ID_460' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_460' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2564" target="_new">Confuse</a> <br />             <input id='Chk1ID_461' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_461' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2563" target="_new">Convert</a> <br />             <input id='Chk1ID_462' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_462' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2596" target="_new">Wyrmrest Agent</a> <br />             <input id='Chk1ID_463' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_463' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2566" target="_new">Shadowfiend</a> <br />             <input id='Chk1ID_464' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_464' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2555" target="_new">Holy Champion</a> <br />             <input id='Chk1ID_465' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_465' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2551" target="_new">Spawn of Shadows</a> <br />             <input id='Chk1ID_466' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2556" target="_new">Confessor Paletress</a> <br />         <h3>Class: Rogue</h3>
+            <input id='Chk1ID_467' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_467' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2715" target="_new">Buccaneer</a> <br />             <input id='Chk1ID_468' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_468' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2766" target="_new">Cutpurse</a> <br />             <input id='Chk1ID_469' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_469' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2767" target="_new">Undercity Valiant</a> <br />             <input id='Chk1ID_470' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_470' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2587" target="_new">Beneath the Grounds</a> <br />             <input id='Chk1ID_471' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_471' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2770" target="_new">Burgle</a> <br />             <input id='Chk1ID_472' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_472' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2768" target="_new">Shady Dealer</a> <br />             <input id='Chk1ID_473' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_473' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2763" target="_new">Poisoned Blade</a> <br />             <input id='Chk1ID_474' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_474' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2765" target="_new">Shado-Pan Cavalry</a> <br />             <input id='Chk1ID_475' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2586" target="_new">Anub&#39;arak</a> <br />         <h3>Class: Shaman</h3>
+            <input id='Chk1ID_476' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_476' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2514" target="_new">Ancestral Knowledge</a> <br />             <input id='Chk1ID_477' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_477' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2610" target="_new">Totem Golem</a> <br />             <input id='Chk1ID_478' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_478' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2620" target="_new">Elemental Destruction</a> <br />             <input id='Chk1ID_479' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_479' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2612" target="_new">Healing Wave</a> <br />             <input id='Chk1ID_480' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_480' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2513" target="_new">Tuskarr Totemic</a> <br />             <input id='Chk1ID_481' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_481' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2617" target="_new">Charged Hammer</a> <br />             <input id='Chk1ID_482' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_482' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2613" target="_new">Draenei Totemcarver</a> <br />             <input id='Chk1ID_483' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_483' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2615" target="_new">Thunder Bluff Valiant</a> <br />             <input id='Chk1ID_484' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2618" target="_new">The Mistcaller</a> <br />         <h3>Class: Warlock</h3>
+            <input id='Chk1ID_485' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_485' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2535" target="_new">Demonfuse</a> <br />             <input id='Chk1ID_486' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_486' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2777" target="_new">Tiny Knight of Evil</a> <br />             <input id='Chk1ID_487' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_487' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2623" target="_new">Wrathguard</a> <br />             <input id='Chk1ID_488' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_488' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2822" target="_new">Dreadsteed</a> <br />             <input id='Chk1ID_489' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_489' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2628" target="_new">Fist of Jaraxxus</a> <br />             <input id='Chk1ID_490' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_490' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2632" target="_new">Dark Bargin</a> <br />             <input id='Chk1ID_491' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_491' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2537" target="_new">Void Crusher</a> <br />             <input id='Chk1ID_492' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2621" target="_new">Wilfred Fizzlebang</a> <br />             <input id='Chk1ID_493' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_493' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2624" target="_new">Fearsome Doomguard</a> <br />         <h3>Class: Warrior</h3>
+            <input id='Chk1ID_494' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_494' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2758" target="_new">Alexstraza&#39;s Champion</a> <br />             <input id='Chk1ID_495' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_495' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2754" target="_new">Bolster</a> <br />             <input id='Chk1ID_496' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_496' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2733" target="_new">Sparring Partner</a> <br />             <input id='Chk1ID_497' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_497' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2729" target="_new">Bash</a> <br />             <input id='Chk1ID_498' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_498' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2756" target="_new">King&#39;s Defender</a> <br />             <input id='Chk1ID_499' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_499' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2711" target="_new">Orgrimmar Aspirant</a> <br />             <input id='Chk1ID_500' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_500' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2753" target="_new">Magnataur Alpha</a> <br />             <input id='Chk1ID_501' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_501' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2723" target="_new">Sea Reaver</a> <br />             <input id='Chk1ID_502' type="checkbox" class="ChkCard"  />
+                <a href="http://www.hearthhead.com/card=2760" target="_new">Varian Wrynn</a> <br /> </div>
+<div>
+    <a name="GvG" /></a>
+    <h2>
+        Your GvG Collection:
+    </h2>
+    Direct Link: <a href="www.google.com" id="ColLinkGvG">http://www.carddust.com/Home/00000000000000TOODO000000000000000000000</a><br />
+    Dust On Hand: <br />
+    <input id="stDustGvG" type="text" value="0" /> <br />
+    Simulations: <br />
+    <input id="SimBoxGvG" type="text" value="100" />
+    <input id="RunSimGvG" type="button" title="Run Simulation" value="Run Simulation" /> <br />
+    Minimum <br />
+    <input id="MinRunGvG" title="0" type="text" value="0" /> <input id="MinDollarGvG" title="0" type="text" value="$0" /> <br />
+    Average <br />
+    <input id="AvgRunGvG" title="0" type="text" value="0" /> <input id="AvgDollarGvG" title="0" type="text" value="$0" /> <br />
+    Maximum <br />
+    <input id="MaxRunGvG" title="0" type="text" value="0" /> <input id="MaxDollarGvG" title="0" type="text" value="$0" /> <br />
+
+    Dust Needed: <br />
+    <input id="needDustGvG" type="text" value="0" readonly="readonly" /> <br />
+    Common Missing (Single/Double): <br />
+    <input id="needCommonGvG" type="text" value="0/0" readonly="readonly" /> <br />
+    Rare Missing (Single/Double): <br />
+    <input id="needRareGvG" type="text" value="0/0" readonly="readonly" /> <br />
+    Epic Missing (Single/Double): <br />
+    <input id="needEpicGvG" type="text" value="0/0" readonly="readonly" /> <br />
+    Legendary Missing: <br />
+    <input id="needLegendGvG" type="text" value="0/0" readonly="readonly" /> <br />
+</div>
+<div>
+        <h3>Class: Neutral</h3>
+            <input id='Chk1ID_269' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_269' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2061" target="_new">Target Dummy</a> <br />
+            <input id='Chk1ID_247' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_247' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2050" target="_new">Clockwork Gnome</a> <br />
+            <input id='Chk1ID_248' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_248' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1932" target="_new">Cogmaster</a> <br />
+            <input id='Chk1ID_249' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_249' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2053" target="_new">Annoy-o-Tron</a> <br />
+            <input id='Chk1ID_250' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_250' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2044" target="_new">Explosive Sheep</a> <br />
+            <input id='Chk1ID_251' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_251' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2049" target="_new">Giblin Stalker</a> <br />
+            <input id='Chk1ID_252' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_252' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1940" target="_new">Mechwarper</a> <br />
+            <input id='Chk1ID_253' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_253' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2071" target="_new">Micro Machine</a> <br />
+            <input id='Chk1ID_254' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_254' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2032" target="_new">Puddlestomper</a> <br />
+            <input id='Chk1ID_279' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_279' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2076" target="_new">Recombobulator</a> <br />
+            <input id='Chk1ID_255' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_255' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2043" target="_new">Ship&#39;s Cannon</a> <br />
+            <input id='Chk1ID_256' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_256' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2035" target="_new">Stonesplinter Trogg</a> <br />
+            <input id='Chk1ID_257' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_257' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2052" target="_new">Flying Machine</a> <br />
+            <input id='Chk1ID_258' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_258' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2066" target="_new">Gnomeregan Infantry</a> <br />
+            <input id='Chk1ID_270' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_270' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2060" target="_new">Gnomish Experimenter</a> <br />
+            <input id='Chk1ID_271' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_271' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2063" target="_new">Goblin Sapper</a> <br />
+            <input id='Chk1ID_280' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_280' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2072" target="_new">Hobgoblin</a> <br />
+            <input id='Chk1ID_272' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_272' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2057" target="_new">Illuminator</a> <br />
+            <input id='Chk1ID_273' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_273' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2065" target="_new">Lil&#39; Exorcist</a> <br />
+            <input id='Chk1ID_259' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_259' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2033" target="_new">Ogre Brute</a> <br />
+            <input id='Chk1ID_260' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_260' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2012" target="_new">Spider Tank</a> <br />
+            <input id='Chk1ID_261' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_261' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2070" target="_new">Tinkertown Technician</a> <br />
+            <input id='Chk1ID_274' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_274' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2059" target="_new">Arcane Nullifier X-21</a> <br />
+            <input id='Chk1ID_262' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_262' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2036" target="_new">Burly Rockjaw Trogg</a> <br />
+            <input id='Chk1ID_281' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_281' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2075" target="_new">Enhance-o Mechano</a> <br />
+            <input id='Chk1ID_275' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_275' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2062" target="_new">Jeeves</a> <br />
+            <input id='Chk1ID_276' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_276' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2042" target="_new">Kezan Mystic</a> <br />
+            <input id='Chk1ID_263' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_263' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2039" target="_new">Lost Tallstrider</a> <br />
+            <input id='Chk1ID_264' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_264' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2046" target="_new">Mechanical Yeti</a> <br />
+            <input id='Chk1ID_282' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_282' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2077" target="_new">Mini-Mage</a> <br />
+            <input id='Chk1ID_265' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_265' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2064" target="_new">Piloted Shredder</a> <br />
+            <input id='Chk1ID_266' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_266' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2037" target="_new">Antique Healbot</a> <br />
+            <input id='Chk1ID_287' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2087" target="_new">Blingtron 3000</a> <br />
+            <input id='Chk1ID_277' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_277' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2067" target="_new">Bomb Lobber</a> <br />
+            <input id='Chk1ID_283' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_283' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1982" target="_new">Fel Reaver</a> <br />
+            <input id='Chk1ID_288' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2088" target="_new">Hemet Nesingwary</a> <br />
+            <input id='Chk1ID_284' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_284' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2074" target="_new">Junkbot</a> <br />
+            <input id='Chk1ID_278' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_278' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2058" target="_new">Madder Bomber</a> <br />
+            <input id='Chk1ID_289' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2079" target="_new">Mimiron&#39;s Head</a> <br />
+            <input id='Chk1ID_267' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_267' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2038" target="_new">Salty Dog</a> <br />
+            <input id='Chk1ID_290' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2085" target="_new">Gazlowe</a> <br />
+            <input id='Chk1ID_291' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2080" target="_new">Mogor the Ogre</a> <br />
+            <input id='Chk1ID_285' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_285' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2073" target="_new">Piloted Sky Golem</a> <br />
+            <input id='Chk1ID_292' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2083" target="_new">Toshley</a> <br />
+            <input id='Chk1ID_293' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2078" target="_new">Dr. Boom</a> <br />
+            <input id='Chk1ID_294' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2086" target="_new">Troggzor the Earthinator</a> <br />
+            <input id='Chk1ID_295' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2081" target="_new">Foe Reaper 4000</a> <br />
+            <input id='Chk1ID_268' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_268' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2047" target="_new">Force-Tank MAX</a> <br />
+            <input id='Chk1ID_296' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2082" target="_new">Sneed&#39;s Old Shredder</a> <br />
+            <input id='Chk1ID_297' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2084" target="_new">Mekgineer Thermaplugg</a> <br />
+            <input id='Chk1ID_286' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_286' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2233" target="_new">Clockwork Giant</a> <br />
+        <h3>Class: Druid</h3>
+            <input id='Chk1ID_298' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_298' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2096" target="_new">Anodized Robo Cub</a> <br />
+            <input id='Chk1ID_300' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_300' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2225" target="_new">Grove Tender</a> <br />
+            <input id='Chk1ID_299' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_299' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2048" target="_new">Druid of the Fang</a> <br />
+            <input id='Chk1ID_303' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_303' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2009" target="_new">Dark Wispers</a> <br />
+            <input id='Chk1ID_301' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_301' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2002" target="_new">Mech-Bear-Cat</a> <br />
+            <input id='Chk1ID_302' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_302' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1995" target="_new">Recycle</a> <br />
+            <input id='Chk1ID_305' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2003" target="_new">Malorne</a> <br />
+            <input id='Chk1ID_304' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_304' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2001" target="_new">Tree of Life</a> <br />
+        <h3>Class: Hunter</h3>
+            <input id='Chk1ID_308' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_308' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2094" target="_new">Call Pet</a> <br />
+            <input id='Chk1ID_311' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_311' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1991" target="_new">Feign Death</a> <br />
+            <input id='Chk1ID_306' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_306' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2011" target="_new">Glaivezooka</a> <br />
+            <input id='Chk1ID_312' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_312' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2055" target="_new">Steamwheedle Sniper</a> <br />
+            <input id='Chk1ID_309' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_309' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2016" target="_new">Metaltooth Leaper</a> <br />
+            <input id='Chk1ID_307' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_307' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2041" target="_new">Cobra Shot</a> <br />
+            <input id='Chk1ID_310' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_310' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2014" target="_new">King of Beasts</a> <br />
+            <input id='Chk1ID_313' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2017" target="_new">Gahz&#39;rilla</a> <br />
+        <h3>Class: Mage</h3>
+            <input id='Chk1ID_314' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_314' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1927" target="_new">Flamecannon</a> <br />
+            <input id='Chk1ID_315' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_315' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1928" target="_new">Snowchugger</a> <br />
+            <input id='Chk1ID_316' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_316' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1929" target="_new">Unstable Portal</a> <br />
+            <input id='Chk1ID_317' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_317' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2249" target="_new">Soot Spewer</a> <br />
+            <input id='Chk1ID_319' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_319' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1941" target="_new">Echo of Medivh</a> <br />
+            <input id='Chk1ID_318' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_318' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1934" target="_new">Goblin Blastmage</a> <br />
+            <input id='Chk1ID_320' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_320' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2234" target="_new">Wee Spellstopper</a> <br />
+            <input id='Chk1ID_321' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1939" target="_new">Flame Leviathan</a> <br />
+        <h3>Class: Paladin</h3>
+            <input id='Chk1ID_322' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_322' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2025" target="_new">Seal of Light</a> <br />
+            <input id='Chk1ID_323' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_323' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2026" target="_new">Shielded Minibot</a> <br />
+            <input id='Chk1ID_327' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_327' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2027" target="_new">Coghammer</a> <br />
+            <input id='Chk1ID_324' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_324' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2029" target="_new">Muster for Battle</a> <br />
+            <input id='Chk1ID_325' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_325' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2069" target="_new">Scarlet Purifier</a> <br />
+            <input id='Chk1ID_329' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2031" target="_new">Bolvar Fordragon</a> <br />
+            <input id='Chk1ID_326' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_326' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2030" target="_new">Cobalt Guardian</a> <br />
+            <input id='Chk1ID_328' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_328' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2028" target="_new">Quartermaster</a> <br />
+        <h3>Class: Priest</h3>
+            <input id='Chk1ID_332' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_332' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1933" target="_new">Light of the Naaru</a> <br />
+            <input id='Chk1ID_335' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_335' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1937" target="_new">Shadowbomber</a> <br />
+            <input id='Chk1ID_333' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_333' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2040" target="_new">Shadoboxer</a> <br />
+            <input id='Chk1ID_330' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_330' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1936" target="_new">Shrinkmeister</a> <br />
+            <input id='Chk1ID_331' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_331' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1935" target="_new">Velen&#39;s Chosen</a> <br />
+            <input id='Chk1ID_334' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_334' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2051" target="_new">Upgraded Repair Bot</a> <br />
+            <input id='Chk1ID_337' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1931" target="_new">Vol&#39;jin</a> <br />
+            <input id='Chk1ID_336' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_336' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1938" target="_new">Lightbomb</a> <br />
+        <h3>Class: Rogue</h3>
+            <input id='Chk1ID_338' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_338' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1988" target="_new">Goblin Auto-Barber</a> <br />
+            <input id='Chk1ID_340' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_340' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1990" target="_new">On-eyed Cheat</a> <br />
+            <input id='Chk1ID_343' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_343' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1989" target="_new">Cogmaster&#39;s Wrench</a> <br />
+            <input id='Chk1ID_341' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_341' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1992" target="_new">Iron Sensei</a> <br />
+            <input id='Chk1ID_344' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_344' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2015" target="_new">Sabotage</a> <br />
+            <input id='Chk1ID_339' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_339' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2095" target="_new">Tinker&#39;s Sharpsword Oil</a> <br />
+            <input id='Chk1ID_342' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_342' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2056" target="_new">Ogre Ninga</a> <br />
+            <input id='Chk1ID_345' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1993" target="_new">Trade Prince Gallywix</a> <br />
+        <h3>Class: Shaman</h3>
+            <input id='Chk1ID_346' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_346' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2006" target="_new">Crackle</a> <br />
+            <input id='Chk1ID_348' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_348' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2007" target="_new">Vitality Totem</a> <br />
+            <input id='Chk1ID_347' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_347' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2005" target="_new">Whirling Zap-o-matic</a> <br />
+            <input id='Chk1ID_349' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_349' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2004" target="_new">Powermace</a> <br />
+            <input id='Chk1ID_351' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_351' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1998" target="_new">Ancestor&#39;s Call</a> <br />
+            <input id='Chk1ID_350' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_350' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2034" target="_new">Dunemaul Shaman</a> <br />
+            <input id='Chk1ID_352' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_352' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2008" target="_new">Siltfin Spiritwalker</a> <br />
+            <input id='Chk1ID_353' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2010" target="_new">Neptulon</a> <br />
+        <h3>Class: Warlock</h3>
+            <input id='Chk1ID_354' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_354' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2093" target="_new">Darkbomb</a> <br />
+            <input id='Chk1ID_356' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_356' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2172" target="_new">Mistress of Pain</a> <br />
+            <input id='Chk1ID_357' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_357' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1997" target="_new">Fel Cannon</a> <br />
+            <input id='Chk1ID_358' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_358' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2013" target="_new">Imp-losion</a> <br />
+            <input id='Chk1ID_359' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_359' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1985" target="_new">Demonheart</a> <br />
+            <input id='Chk1ID_355' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_355' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2068" target="_new">Floating Watcher</a> <br />
+            <input id='Chk1ID_360' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_360' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2045" target="_new">Anima Golem</a> <br />
+            <input id='Chk1ID_361' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1986" target="_new">Mal&#39;Ganis</a> <br />
+        <h3>Class: Warrior</h3>
+            <input id='Chk1ID_362' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_362' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2019" target="_new">Warbot</a> <br />
+            <input id='Chk1ID_367' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_367' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2018" target="_new">Bouncing Blade</a> <br />
+            <input id='Chk1ID_363' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_363' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2022" target="_new">Ogre Warmaul</a> <br />
+            <input id='Chk1ID_364' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_364' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2023" target="_new">Screwjank Clunker</a> <br />
+            <input id='Chk1ID_365' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_365' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2054" target="_new">Siege Engine</a> <br />
+            <input id='Chk1ID_369' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2024" target="_new">Iron Juggernaut</a> <br />
+            <input id='Chk1ID_366' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_366' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2021" target="_new">Shieldmaiden</a> <br />
+            <input id='Chk1ID_368' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_368' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=2020" target="_new">Crush</a> <br />
+</div>
+<div>
+    <a name="Classic"></a>
+    <h2>
+        Your CLASSIC Collection:
+    </h2>
+    Direct Link: <a href="www.google.com" id="ColLink" >http://www.carddust.com/Home/00000000000000TOODO000000000000000000000</a><br />
+    Dust On Hand: <br />
+    <input id="stDust" type="text" value="0" /> <br />
+    Simulations: <br />
+    <input id="SimBox" type="text" value="100"/>
+    <input id="RunSim" type="button" title="Run Simulation" value="Run Simulation"/> <br />
+    Minimum <br />
+    <input id="MinRun" title="0" type="text" value="0"/> <input id="MinDollar" title="0" type="text" value="$0" /> <br />
+    Average <br />
+    <input id="AvgRun" title="0" type="text" value="0" /> <input id="AvgDollar" title="0" type="text" value="$0" /> <br />
+    Maximum <br />
+    <input id="MaxRun" title="0" type="text" value="0"/> <input id="MaxDollar" title="0" type="text" value="$0" /> <br />
+
+    Dust Needed: <br />
+    <input id="needDust" type="text" value="0" readonly="readonly" /> <br />
+    Common Missing (Single/Double): <br />
+    <input id="needCommon" type="text" value="0/0" readonly="readonly" /> <br />
+    Rare Missing (Single/Double): <br />
+    <input id="needRare" type="text" value="0/0" readonly="readonly" /> <br />
+    Epic Missing (Single/Double): <br />
+    <input id="needEpic" type="text" value="0/0" readonly="readonly" /> <br />
+    Legendary Missing: <br />
+    <input id="needLegend" type="text" value="0/0" readonly="readonly" /> <br />
+
+
+</div>
+<div>
+        <h3>Class: Neutral</h3>
+            <input id='Chk1ID_1' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_1' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=179" target="_new" >Wisp</a> <br />
+            <input id='Chk1ID_2' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_2' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=242" target="_new" >Abusive Sergeant</a> <br />
+            <input id='Chk1ID_95' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_95' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1688" target="_new" >Angry Chicken</a> <br />
+            <input id='Chk1ID_3' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_3' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=757" target="_new" >Argent Squire</a> <br />
+            <input id='Chk1ID_96' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_96' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=997" target="_new" >Bloodsail Corsair</a> <br />
+            <input id='Chk1ID_176' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_176' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=443" target="_new" >Hungry Crab</a> <br />
+            <input id='Chk1ID_4' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_4' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=658" target="_new" >Leper Gnome</a> <br />
+            <input id='Chk1ID_97' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_97' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1655" target="_new" >Lightwarden</a> <br />
+            <input id='Chk1ID_98' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_98' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=475" target="_new" >Murloc Tidecaller</a> <br />
+            <input id='Chk1ID_99' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_99' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=158" target="_new" >Secretkeeper</a> <br />
+            <input id='Chk1ID_5' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_5' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=866" target="_new" >Shieldbearer</a> <br />
+            <input id='Chk1ID_6' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_6' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=724" target="_new" >Southsea Deckhand</a> <br />
+            <input id='Chk1ID_7' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_7' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=994" target="_new" >Worgen Infiltrator</a> <br />
+            <input id='Chk1ID_8' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_8' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=641" target="_new" >Young Dragonhawk</a> <br />
+            <input id='Chk1ID_100' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_100' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1634" target="_new" >Young Priestess</a> <br />
+            <input id='Chk1ID_9' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_9' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=790" target="_new" >Amani Berserker</a> <br />
+            <input id='Chk1ID_101' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_101' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=605" target="_new" >Ancient Watcher</a> <br />
+            <input id='Chk1ID_213' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=749" target="_new" >Bloodmage Thalnos</a> <br />
+            <input id='Chk1ID_10' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_10' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=999" target="_new" >Bloodsail Raider</a> <br />
+            <input id='Chk1ID_102' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_102' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=801" target="_new" >Crazed Alchemist</a> <br />
+            <input id='Chk1ID_11' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_11' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=985" target="_new" >Dire Wolf Alpha</a> <br />
+            <input id='Chk1ID_177' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_177' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=138" target="_new" >Doomsayler</a> <br />
+            <input id='Chk1ID_12' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_12' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=609" target="_new" >Faerie Dragon</a> <br />
+            <input id='Chk1ID_13' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_13' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=290" target="_new" >Ironbeak Owl</a> <br />
+            <input id='Chk1ID_103' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_103' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1073" target="_new" >Knife Juggler</a> <br />
+            <input id='Chk1ID_14' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_14' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=251" target="_new" >Loot Hoarder</a> <br />
+            <input id='Chk1ID_214' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1135" target="_new" >Lorewalker Cho</a> <br />
+            <input id='Chk1ID_15' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_15' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=762" target="_new" >Mad Bomber</a> <br />
+            <input id='Chk1ID_104' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_104' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=12" target="_new" >Mana Addict</a> <br />
+            <input id='Chk1ID_105' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_105' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=715" target="_new" >Mana Wraith</a> <br />
+            <input id='Chk1ID_106' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_106' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=351" target="_new" >Master Swordsman</a> <br />
+            <input id='Chk1ID_215' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=855" target="_new" >Millhouse Manastorm</a> <br />
+            <input id='Chk1ID_216' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1147" target="_new" >Nat Pagle</a> <br />
+            <input id='Chk1ID_107' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_107' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=37" target="_new" >Pint-Sized Summoner</a> <br />
+            <input id='Chk1ID_108' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_108' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=891" target="_new" >Sunfury Protector</a> <br />
+            <input id='Chk1ID_109' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_109' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1014" target="_new" >Wild Pyromancer</a> <br />
+            <input id='Chk1ID_16' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_16' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=415" target="_new" >Youthful Brewmaster</a> <br />
+            <input id='Chk1ID_17' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_17' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1659" target="_new" >Acolyte of Pain</a> <br />
+            <input id='Chk1ID_110' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_110' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1658" target="_new" >Alarm-o-bot</a> <br />
+            <input id='Chk1ID_111' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_111' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=466" target="_new" >Arcane Golem</a> <br />
+            <input id='Chk1ID_178' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_178' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1657" target="_new" >Big Game Hunter</a> <br />
+            <input id='Chk1ID_179' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_179' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=755" target="_new" >Blood Knight</a> <br />
+            <input id='Chk1ID_112' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_112' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1016" target="_new" >Coldlight Oracle</a> <br />
+            <input id='Chk1ID_113' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_113' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=453" target="_new" >Coldlight Seer</a> <br />
+            <input id='Chk1ID_114' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_114' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=979" target="_new" >Demolisher</a> <br />
+            <input id='Chk1ID_18' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_18' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1651" target="_new" >Earthen Ring Farseer</a> <br />
+            <input id='Chk1ID_115' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_115' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1098" target="_new" >Emperor Cobra</a> <br />
+            <input id='Chk1ID_19' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_19' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=397" target="_new" >Flesheating Ghoul</a> <br />
+            <input id='Chk1ID_20' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_20' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=778" target="_new" >Harvest Golem</a> <br />
+            <input id='Chk1ID_116' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_116' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=926" target="_new" >Imp Master</a> <br />
+            <input id='Chk1ID_117' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_117' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1109" target="_new" >Injured Blademaster</a> <br />
+            <input id='Chk1ID_21' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_21' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=921" target="_new" >Jungle Panther</a> <br />
+            <input id='Chk1ID_217' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1693" target="_new" >King Mukla</a> <br />
+            <input id='Chk1ID_118' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_118' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=734" target="_new" >Mind Control Tech</a> <br />
+            <input id='Chk1ID_180' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_180' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1063" target="_new" >Murloc Warleader</a> <br />
+            <input id='Chk1ID_119' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_119' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=791" target="_new" >Questing Adventurer</a> <br />
+            <input id='Chk1ID_22' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_22' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1155" target="_new" >Raging Worgen</a> <br />
+            <input id='Chk1ID_23' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_23' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=642" target="_new" >Scarlet Crusader</a> <br />
+            <input id='Chk1ID_181' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_181' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=680" target="_new" >Southsea Captain</a> <br />
+            <input id='Chk1ID_24' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_24' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=45" target="_new" >Tauren Warrior</a> <br />
+            <input id='Chk1ID_25' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_25' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=765" target="_new" >Thrallmar Farseer</a> <br />
+            <input id='Chk1ID_218' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=570" target="_new" >Tinkmaster Overspark</a> <br />
+            <input id='Chk1ID_26' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_26' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=186" target="_new" >Ancient Brewmaster</a> <br />
+            <input id='Chk1ID_120' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_120' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=915" target="_new" >Ancient Mage</a> <br />
+            <input id='Chk1ID_27' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_27' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=811" target="_new" >Cult Master</a> <br />
+            <input id='Chk1ID_28' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_28' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=348" target="_new" >Dark Iron Dwarf</a> <br />
+            <input id='Chk1ID_121' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_121' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=763" target="_new" >Defender of Argus</a> <br />
+            <input id='Chk1ID_29' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_29' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=878" target="_new" >Dread Corsair</a> <br />
+            <input id='Chk1ID_219' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=559" target="_new" >Leeroy Jenkins</a> <br />
+            <input id='Chk1ID_30' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_30' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=700" target="_new" >Mogu&#39;shan Warden</a> <br />
+            <input id='Chk1ID_31' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_31' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=34" target="_new" >Silvermoon Guardian</a> <br />
+            <input id='Chk1ID_32' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_32' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=754" target="_new" >Spellbreaker</a> <br />
+            <input id='Chk1ID_122' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_122' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1037" target="_new" >Twilight Drake</a> <br />
+            <input id='Chk1ID_123' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_123' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1029" target="_new" >Violet Teacher</a> <br />
+            <input id='Chk1ID_124' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_124' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=440" target="_new" >Abomination</a> <br />
+            <input id='Chk1ID_125' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_125' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=825" target="_new" >Azure Drake</a> <br />
+            <input id='Chk1ID_220' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=456" target="_new" >Captain Greenskin</a> <br />
+            <input id='Chk1ID_182' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_182' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=531" target="_new" >Faceless Manipulator</a> <br />
+            <input id='Chk1ID_33' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_33' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=602" target="_new" >Fen Creeper</a> <br />
+            <input id='Chk1ID_126' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_126' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=932" target="_new" >Gadgetzan Auctioneer</a> <br />
+            <input id='Chk1ID_222' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=912" target="_new" >Harrison Jones</a> <br />
+            <input id='Chk1ID_223' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1721" target="_new" >Silvanas Windrunner</a> <br />
+            <input id='Chk1ID_34' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_34' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=69" target="_new" >Silver Hand Knight</a> <br />
+            <input id='Chk1ID_35' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_35' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=61" target="_new" >Spitful Smith</a> <br />
+            <input id='Chk1ID_127' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_127' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1371" target="_new" >Stampeding Kodo</a> <br />
+            <input id='Chk1ID_36' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_36' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=68" target="_new" >Stranglethorn Tiger</a> <br />
+            <input id='Chk1ID_37' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_37' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1122" target="_new" >Venture Co. Mercenary</a> <br />
+            <input id='Chk1ID_128' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_128' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=281" target="_new" >Argent Commander</a> <br />
+            <input id='Chk1ID_224' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=420" target="_new" >Cairne Bloodhoof</a> <br />
+            <input id='Chk1ID_38' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_38' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=512" target="_new" >Frost Elemental</a> <br />
+            <input id='Chk1ID_225' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=640" target="_new" >Hogger</a> <br />
+            <input id='Chk1ID_226' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=556" target="_new" >Illidan Stormrage</a> <br />
+            <input id='Chk1ID_39' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_39' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=424" target="_new" >Priestess of Elune</a> <br />
+            <input id='Chk1ID_129' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_129' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=759" target="_new" >Sunwalker</a> <br />
+            <input id='Chk1ID_227' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=962" target="_new" >The Beast</a> <br />
+            <input id='Chk1ID_228' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1656" target="_new" >The Black Knight</a> <br />
+            <input id='Chk1ID_40' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_40' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=567" target="_new" >Windfury Harpy</a> <br />
+            <input id='Chk1ID_229' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=336" target="_new" >Baron Geddon</a> <br />
+            <input id='Chk1ID_130' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_130' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=134" target="_new" >Ravenholdt Assassin</a> <br />
+            <input id='Chk1ID_230' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=526" target="_new" >Gruul</a> <br />
+            <input id='Chk1ID_231' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=374" target="_new" >Ragnaros the Firelord</a> <br />
+            <input id='Chk1ID_232' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=581" target="_new" >Alexstraza</a> <br />
+            <input id='Chk1ID_233' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=436" target="_new" >Malygos</a> <br />
+            <input id='Chk1ID_234' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=411" target="_new" >Nozdormu</a> <br />
+            <input id='Chk1ID_235' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=363" target="_new" >Onyxia</a> <br />
+            <input id='Chk1ID_236' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1186" target="_new" >Ysera</a> <br />
+            <input id='Chk1ID_237' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=834" target="_new" >Deathwing</a> <br />
+            <input id='Chk1ID_183' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_183' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=211" target="_new" >Sea Giant</a> <br />
+            <input id='Chk1ID_184' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_184' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=993" target="_new" >Mountain Giant</a> <br />
+            <input id='Chk1ID_185' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_185' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1372" target="_new" >Molten Giant</a> <br />
+        <h3>Class: Druid</h3>
+            <input id='Chk1ID_41' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_41' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=233" target="_new" >Naturalize</a> <br />
+            <input id='Chk1ID_131' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_131' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=481" target="_new" >Savagery</a> <br />
+            <input id='Chk1ID_42' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_42' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=503" target="_new" >Power of the Wild</a> <br />
+            <input id='Chk1ID_43' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_43' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=836" target="_new" >Wrath</a> <br />
+            <input id='Chk1ID_44' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_44' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=151" target="_new" >Mark of Nature</a> <br />
+            <input id='Chk1ID_132' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_132' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=577" target="_new" >Bite</a> <br />
+            <input id='Chk1ID_133' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_133' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=601" target="_new" >Keeper of the Grove</a> <br />
+            <input id='Chk1ID_45' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_45' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=381" target="_new" >Soul of the Forest</a> <br />
+            <input id='Chk1ID_46' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_46' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=692" target="_new" >Druid of the Claw</a> <br />
+            <input id='Chk1ID_134' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_134' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=95" target="_new" >Nourish</a> <br />
+            <input id='Chk1ID_135' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_135' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=86" target="_new" >Starfall</a> <br />
+            <input id='Chk1ID_186' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_186' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=493" target="_new" >Force of Nature</a> <br />
+            <input id='Chk1ID_187' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_187' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=920" target="_new" >Ancient of Lore</a> <br />
+            <input id='Chk1ID_188' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_188' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1035" target="_new" >Ancient of War</a> <br />
+            <input id='Chk1ID_238' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=36" target="_new" >Cenarius</a> <br />
+        <h3>Class: Hunter</h3>
+            <input id='Chk1ID_189' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_189' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=903" target="_new" >Bestial Wrath</a> <br />
+            <input id='Chk1ID_136' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_136' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=896" target="_new" >Flare</a> <br />
+            <input id='Chk1ID_47' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_47' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=585" target="_new" >Explosive Trap</a> <br />
+            <input id='Chk1ID_48' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_48' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=519" target="_new" >Freezing Trap</a> <br />
+            <input id='Chk1ID_137' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_137' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1091" target="_new" >Misdirection</a> <br />
+            <input id='Chk1ID_49' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_49' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1281" target="_new" >Scavenging Hyena</a> <br />
+            <input id='Chk1ID_190' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_190' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=455" target="_new" >Snake Trap</a> <br />
+            <input id='Chk1ID_50' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_50' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=814" target="_new" >Snipe</a> <br />
+            <input id='Chk1ID_51' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_51' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1093" target="_new" >Deadly Shot</a> <br />
+            <input id='Chk1ID_138' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_138' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1662" target="_new" >Eaglehorn Bow</a> <br />
+            <input id='Chk1ID_52' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_52' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1243" target="_new" >Unleash the Hounds</a> <br />
+            <input id='Chk1ID_139' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_139' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=394" target="_new" >Explosive Shot</a> <br />
+            <input id='Chk1ID_140' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_140' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1261" target="_new" >Savannah Highmane</a> <br />
+            <input id='Chk1ID_191' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_191' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=311" target="_new" >Gladiator&#39;s Longbow</a> <br />
+            <input id='Chk1ID_239' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1144" target="_new" >King Krush</a> <br />
+        <h3>Class: Mage</h3>
+            <input id='Chk1ID_53' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_53' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=172" target="_new" >Ice Lance</a> <br />
+            <input id='Chk1ID_54' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_54' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=405" target="_new" >Mana Wyrm</a> <br />
+            <input id='Chk1ID_55' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_55' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=614" target="_new" >Sorcerer&#39;s Apprentice</a> <br />
+            <input id='Chk1ID_141' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_141' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=113" target="_new" >Counterspell</a> <br />
+            <input id='Chk1ID_56' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_56' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=621" target="_new" >Ice Barrier</a> <br />
+            <input id='Chk1ID_192' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_192' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=192" target="_new" >Ice Block</a> <br />
+            <input id='Chk1ID_142' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_142' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=748" target="_new" >Kirin Tor Mage</a> <br />
+            <input id='Chk1ID_57' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_57' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=195" target="_new" >Mirror Entity</a> <br />
+            <input id='Chk1ID_193' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_193' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=366" target="_new" >Spellbender</a> <br />
+            <input id='Chk1ID_143' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_143' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=286" target="_new" >Vaporize</a> <br />
+            <input id='Chk1ID_58' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_58' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=430" target="_new" >Cone of Cold</a> <br />
+            <input id='Chk1ID_144' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_144' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1737" target="_new" >Ethereal Arcanist</a> <br />
+            <input id='Chk1ID_145' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_145' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=457" target="_new" >Blizzard</a> <br />
+            <input id='Chk1ID_240' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=1080" target="_new" >Archmage Antonidas</a> <br />
+            <input id='Chk1ID_194' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_194' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1087" target="_new" >Pyroblast</a> <br />
+        <h3>Class: Paladin</h3>
+            <input id='Chk1ID_59' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_59' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1373" target="_new" >Blessing of Wisdom</a> <br />
+            <input id='Chk1ID_60' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_60' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=462" target="_new" >Eye for an Eye</a> <br />
+            <input id='Chk1ID_61' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_61' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=584" target="_new" >Noble Sacrifice</a> <br />
+            <input id='Chk1ID_62' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_62' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=140" target="_new" >Redemption</a> <br />
+            <input id='Chk1ID_63' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_63' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=232" target="_new" >Repentance</a> <br />
+            <input id='Chk1ID_64' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_64' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1022" target="_new" >Argent Protector</a> <br />
+            <input id='Chk1ID_146' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_146' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=756" target="_new" >Equality</a> <br />
+            <input id='Chk1ID_147' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_147' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1167" target="_new" >Aldor Peacekeeper</a> <br />
+            <input id='Chk1ID_148' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_148' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=679" target="_new" >Diving Favor</a> <br />
+            <input id='Chk1ID_195' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_195' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=643" target="_new" >Sword of Justice</a> <br />
+            <input id='Chk1ID_149' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_149' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1522" target="_new" >Blessed Champion</a> <br />
+            <input id='Chk1ID_150' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_150' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=435" target="_new" >Holy Wrath</a> <br />
+            <input id='Chk1ID_196' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_196' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1174" target="_new" >Avenging Wrath</a> <br />
+            <input id='Chk1ID_197' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_197' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=594" target="_new" >Lay on Hands</a> <br />
+            <input id='Chk1ID_241' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=890" target="_new" >Tirion Fordring</a> <br />
+        <h3>Class: Priest</h3>
+            <input id='Chk1ID_65' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_65' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1362" target="_new" >Circle of Healing</a> <br />
+            <input id='Chk1ID_66' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_66' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1189" target="_new" >Silence</a> <br />
+            <input id='Chk1ID_67' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_67' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=376" target="_new" >Inner Fire</a> <br />
+            <input id='Chk1ID_151' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_151' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=797" target="_new" >Lightwell</a> <br />
+            <input id='Chk1ID_198' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_198' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1368" target="_new" >Shadowform</a> <br />
+            <input id='Chk1ID_68' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_68' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=30" target="_new" >Thoughtsteal</a> <br />
+            <input id='Chk1ID_152' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_152' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=237" target="_new" >Auchenai Soulpriest</a> <br />
+            <input id='Chk1ID_69' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_69' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=886" target="_new" >Lightspawn</a> <br />
+            <input id='Chk1ID_153' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_153' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1366" target="_new" >Mass Dispel</a> <br />
+            <input id='Chk1ID_199' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_199' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=145" target="_new" >Mindgames</a> <br />
+            <input id='Chk1ID_154' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_154' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=220" target="_new" >Shadow Madness</a> <br />
+            <input id='Chk1ID_200' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_200' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=272" target="_new" >Cabal Shadow Priest</a> <br />
+            <input id='Chk1ID_155' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_155' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1365" target="_new" >Holy Fire</a> <br />
+            <input id='Chk1ID_70' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_70' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1364" target="_new" >Temple Enforcer</a> <br />
+            <input id='Chk1ID_242' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=9" target="_new" >Prophet Velen</a> <br />
+        <h3>Class: Rogue</h3>
+            <input id='Chk1ID_201' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_201' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1158" target="_new" >Preparation</a> <br />
+            <input id='Chk1ID_71' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_71' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=365" target="_new" >Shadowstep</a> <br />
+            <input id='Chk1ID_72' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_72' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=268" target="_new" >Cold Blood</a> <br />
+            <input id='Chk1ID_73' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_73' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=990" target="_new" >Conceal</a> <br />
+            <input id='Chk1ID_74' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_74' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=282" target="_new" >Betrayal</a> <br />
+            <input id='Chk1ID_156' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_156' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1064" target="_new" >Blade Flurry</a> <br />
+            <input id='Chk1ID_75' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_75' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=201" target="_new" >Defias Ringleader</a> <br />
+            <input id='Chk1ID_76' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_76' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=904" target="_new" >Eviscerate</a> <br />
+            <input id='Chk1ID_202' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_202' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1133" target="_new" >Patient Assassin</a> <br />
+            <input id='Chk1ID_243' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=306" target="_new" >Edwin VanCleef</a> <br />
+            <input id='Chk1ID_157' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_157' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=708" target="_new" >Headcrack</a> <br />
+            <input id='Chk1ID_158' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_158' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=391" target="_new" >Perdition&#39;s Blade</a> <br />
+            <input id='Chk1ID_159' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_159' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1117" target="_new" >SI:7 Agent</a> <br />
+            <input id='Chk1ID_160' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_160' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=887" target="_new" >Master of Disguise</a> <br />
+            <input id='Chk1ID_203' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_203' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=287" target="_new" >Kidnapper</a> <br />
+        <h3>Class: Shaman</h3>
+            <input id='Chk1ID_77' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_77' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=618" target="_new" >Dust Devil</a> <br />
+            <input id='Chk1ID_78' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_78' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=767" target="_new" >Earth Shock</a> <br />
+            <input id='Chk1ID_79' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_79' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=299" target="_new" >Forked Lightning</a> <br />
+            <input id='Chk1ID_80' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_80' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=505" target="_new" >Lightning Bolt</a> <br />
+            <input id='Chk1ID_161' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_161' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=404" target="_new" >Ancestral Spirit</a> <br />
+            <input id='Chk1ID_81' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_81' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=960" target="_new" >Stormforged Axe</a> <br />
+            <input id='Chk1ID_204' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_204' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=818" target="_new" >Far Sight</a> <br />
+            <input id='Chk1ID_162' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_162' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=238" target="_new" >Feral Sight</a> <br />
+            <input id='Chk1ID_163' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_163' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=864" target="_new" >Lava Burst</a> <br />
+            <input id='Chk1ID_164' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_164' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=629" target="_new" >Lightning Storm</a> <br />
+            <input id='Chk1ID_165' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_165' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=513" target="_new" >Mana Tide Totem</a> <br />
+            <input id='Chk1ID_82' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_82' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=774" target="_new" >Unbound Elemental</a> <br />
+            <input id='Chk1ID_205' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_205' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=352" target="_new" >Doomhammer</a> <br />
+            <input id='Chk1ID_206' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_206' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1141" target="_new" >Earth Elemental</a> <br />
+            <input id='Chk1ID_244' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=32" target="_new" >Al&#39;Akir the Windlord</a> <br />
+        <h3>Class: Warlock</h3>
+            <input id='Chk1ID_83' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_83' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=469" target="_new" >Blood Imp</a> <br />
+            <input id='Chk1ID_84' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_84' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1090" target="_new" >Flame Imp</a> <br />
+            <input id='Chk1ID_85' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_85' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=846" target="_new" >Power Overwhelming</a> <br />
+            <input id='Chk1ID_86' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_86' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1142" target="_new" >Demonfire</a> <br />
+            <input id='Chk1ID_166' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_166' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=517" target="_new" >Felguard</a> <br />
+            <input id='Chk1ID_87' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_87' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=860" target="_new" >Sense Demons</a> <br />
+            <input id='Chk1ID_167' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_167' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1221" target="_new" >Void Terror</a> <br />
+            <input id='Chk1ID_207' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_207' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=783" target="_new" >Pit Lord</a> <br />
+            <input id='Chk1ID_168' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_168' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=147" target="_new" >Shadowflame</a> <br />
+            <input id='Chk1ID_88' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_88' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=969" target="_new" >Summoning Portal</a> <br />
+            <input id='Chk1ID_208' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_208' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=23" target="_new" >Bane of Doom</a> <br />
+            <input id='Chk1ID_169' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_169' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=631" target="_new" >Doomguard</a> <br />
+            <input id='Chk1ID_170' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_170' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1100" target="_new" >Siphon Soul</a> <br />
+            <input id='Chk1ID_209' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_209' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=859" target="_new" >Twisting Nether</a> <br />
+            <input id='Chk1ID_245' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=777" target="_new" >Lord Jaraxxus</a> <br />
+        <h3>Class: Warrior</h3>
+            <input id='Chk1ID_89' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_89' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=22" target="_new" >Inner Rage</a> <br />
+            <input id='Chk1ID_210' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_210' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=546" target="_new" >Shield Slam</a> <br />
+            <input id='Chk1ID_171' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_171' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=511" target="_new" >Upgrade!</a> <br />
+            <input id='Chk1ID_172' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_172' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=596" target="_new" >Armorsmith</a> <br />
+            <input id='Chk1ID_90' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_90' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=400" target="_new" >Battle Rage</a> <br />
+            <input id='Chk1ID_173' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_173' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1026" target="_new" >Commanding Shout</a> <br />
+            <input id='Chk1ID_91' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_91' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=285" target="_new" >Cruel Taskmaster</a> <br />
+            <input id='Chk1ID_92' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_92' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1108" target="_new" >Rampage</a> <br />
+            <input id='Chk1ID_93' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_93' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=1074" target="_new" >Slam</a> <br />
+            <input id='Chk1ID_174' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_174' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=654" target="_new" >Frothing Berserker</a> <br />
+            <input id='Chk1ID_94' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_94' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=538" target="_new" >Arathi Weaponsmith</a> <br />
+            <input id='Chk1ID_175' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_175' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=804" target="_new" >Mortal Strike</a> <br />
+            <input id='Chk1ID_211' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_211' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=75" target="_new" >Brawl</a> <br />
+            <input id='Chk1ID_212' type="checkbox" class="ChkCard"  />
+                <input id='Chk2ID_212' type="checkbox" class="ChkCard" />
+            <a href="http://www.hearthhead.com/card=810" target="_new" >Gorehowl</a> <br />
+            <input id='Chk1ID_246' type="checkbox" class="ChkCard"  />
+            <a href="http://www.hearthhead.com/card=338" target="_new" >Grommash Hellscream</a> <br />
+</div>
+    <div>
+        <a name="QuickCheck"></a>
+        <h2>
+            Quick Check
+        </h2>
+        <p>
+            Rarity:
+            <select id="QCRarity">
+                <option value="-1">All</option>
+                <option value="1">Common</option>
+                <option value="2">Rare</option>
+                <option value="3">Epic</option>
+                <option value="4">Legendary</option>
+            </select><br />
+            Set:
+            <select id="QCSet">
+                <option value="-1">All</option>
+                <option value="1">Classic</option>
+                <option value="2">GvG</option>
+                <option value="4">Grand Tournament</option>
+                <option value="3">Promo</option>
+            </select><br />
+            Action:
+            <select id="QCAction">
+                <option value="true">Check</option>
+                <option value="false">UnCheck</option>
+            </select><br />
+            <input id="QuickCheck" type="button" title="Run" value="Quick Check"/>
+        </p>
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; 2015 - CardDust</p>
+                Questions/Comments?  <a href="mailto:carddust@gmail.com">Let me know</a> <br />
+                </div>
+            </div>
+        </footer>
+
+        <script src="/Scripts/jquery-1.8.2.js"></script>
+
+
+    </body>
 </html>
