@@ -1,4 +1,7 @@
 CardCount = 502;
+var arrCards = new Array();
+var setCards = new Array();
+
 arrCards[0] = '0';
 setCards[0] = '1';
 arrCards[1] = '0';
